@@ -8,12 +8,16 @@ pipeline {
             }
         }
         stage('build') {
-        	withGradle(gradle: 'mygradle 4.10') {
-                        sh "gradle clean jacocoTestReport buildDriverPadApk'${Environment}' -stacktrace -debug -PIS_JENKINS='true' -Pandroid.buildCacheDir='D:/android-build-cache'"
-                    }
+        	steps {
+	        	withGradle(gradle: 'mygradle 4.10') {
+	                        sh "gradle clean jacocoTestReport buildDriverPadApk'${Environment}' -stacktrace -debug -PIS_JENKINS='true' -Pandroid.buildCacheDir='D:/android-build-cache'"
+	                    }
+        	}
         }
         stage('rename apk') {
-        	bat 'ren .\\EhaiPadClient\\build\\outputs\\apk\\%Environment%\\*.apk driverpad_%BUILD_TIMESTAMP%.apk'
+        	steps {
+        		bat 'ren .\\EhaiPadClient\\build\\outputs\\apk\\%Environment%\\*.apk driverpad_%BUILD_TIMESTAMP%.apk'
+        	}
         }
     }
 }
