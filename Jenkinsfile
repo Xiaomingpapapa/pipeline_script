@@ -38,7 +38,7 @@ pipeline {
 	   }
 	   stage('Upload QR Code') {
 	   	  steps {
-	   	  	sshPublisher(publishers: [sshPublisherDesc(configName: '192.168.5.140-SSH', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/jenkins_build/EhiDriverPadAPK/${params.Environment}/', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'driverpad_${BUILD_TIMESTAMP}.jpg')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+	   	  	sshPublisher(publishers: [sshPublisherDesc(configName: '192.168.5.140-SSH', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: "/jenkins_build/EhiDriverPadAPK/${params.Environment}/", remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'driverpad_${BUILD_TIMESTAMP}.jpg')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
 	   	  }  
 	   }
 	   stage('Set Build Description') {
