@@ -7,7 +7,7 @@ pipeline {
 	stages {
 		stage('更新项目代码') {
 			steps {
-				checkout([$class: 'GitSCM', branches: [[name: "${params.Branch}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '031f7c9e-cb86-45c5-ad1b-64b81174fc8b', url: 'http://192.168.1.15:8080/tfs/Mobile.Dev/Android/_git/DriverAndroid']]])
+				checkout([$class: 'GitSCM', branches: [[name: "${params.Branch}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '031f7c9e-cb86-45c5-ad1b-64b81174fc8b', url: 'http://192.168.1.15:1008010080/tfs/Mobile.Dev/Android/_git/DriverAndroid']]])
 			}
 		}
 		stage('构建应用') {
@@ -21,32 +21,16 @@ pipeline {
 					}
 				}
 			}
-		stage('重命名 APK') {
+		stage('生成 APK 二维码') {
 			steps {  	
 				bat "ren .\\EhaiPadClient\\build\\outputs\\apk\\${params.Environment}\\*.apk driverpad_${BUILD_TIMESTAMP}.apk"
-			}
-		}
-		stage('上传 APK') {
-			steps {
 				sshPublisher(publishers: [sshPublisherDesc(configName: '192.168.5.4-SSH', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/jenkins_build/EhiDriverPadAPK', remoteDirectorySDF: false, removePrefix: '/EhaiPadClient/build/outputs/apk/', sourceFiles: "/EhaiPadClient/build/outputs/apk/${params.Environment}/*.apk")], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
-			}
-		}
-		stage('生成 APK 二维码') {
-			steps {
-				bat "java -jar D:\\test\\qr.jar url=http://192.168.5.4:10022/automationtest/script/EhiDriverPadAPK/${params.Environment}/driverpad_${BUILD_TIMESTAMP}.apk image=driverpad_${BUILD_TIMESTAMP}.jpg save=./"
-			}
-		}
-		stage('上传二维码') {
-			steps {
+				bat "java -jar D:\\test\\qr.jar url=http://192.168.5.4:10080/automationtest/script/EhiDriverPadAPK/${params.Environment}/driverpad_${BUILD_TIMESTAMP}.apk image=driverpad_${BUILD_TIMESTAMP}.jpg save=./"
 				sshPublisher(publishers: [sshPublisherDesc(configName: '192.168.5.4-SSH', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: "/jenkins_build/EhiDriverPadAPK/${params.Environment}/", remoteDirectorySDF: false, removePrefix: '', sourceFiles: "driverpad_${BUILD_TIMESTAMP}.jpg")], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
-			}  
-		}
-		stage('设置构建描述属性') {
-			steps {
 				script {
-					currentBuild.description = "<img src='http://192.168.5.4:10022/automationtest/script/EhiDriverPadAPK/${params.Environment}/driverpad_${BUILD_TIMESTAMP}.jpg' alt='二维码${BUILD_TIMESTAMP}' width='200' height='200' /><a href='http://192.168.5.4:10022/automationtest/script/EhiDriverPadAPK/${params.Environment}/driverpad_${BUILD_TIMESTAMP}.jpg'>二维码${BUILD_TIMESTAMP}</a>"
+					currentBuild.description = "<img src='http://192.168.5.4:10080/automationtest/script/EhiDriverPadAPK/${params.Environment}/driverpad_${BUILD_TIMESTAMP}.jpg' alt='二维码${BUILD_TIMESTAMP}' width='200' height='200' /><a href='http://192.168.5.4:10080/automationtest/script/EhiDriverPadAPK/${params.Environment}/driverpad_${BUILD_TIMESTAMP}.jpg'>二维码${BUILD_TIMESTAMP}</a>"
 				}
-			}
+			}	
 		}
 		stage('上传单元测试报告') {
 			steps {
