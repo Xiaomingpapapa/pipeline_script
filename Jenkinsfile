@@ -13,27 +13,27 @@ pipeline {
 	}
 	post {
 	        success {
-	            emailext body: "
+	            emailext body: '"
 	                详情：
-	                SUCCESSFUL: Job \"${env.JOB_NAME} [${env.BUILD_NUMBER}]\"
+	                SUCCESSFUL: Job \'${env.JOB_NAME} [${env.BUILD_NUMBER}]\'
 	                状态：${env.JOB_NAME} jenkins 更新运行正常 
 	                URL ：${env.BUILD_URL}
 	                项目名称 ：${env.JOB_NAME} 
 	                项目更新进度：${env.BUILD_NUMBER}
-	                ",
-	                recipientProviders: [developers()], 
+	                "',
+	                recipientProviders: [developers()],
 	                subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}]",
 	                to: 'zhiming.chen@1hai.cn'
 	                }   
 	        failure {
-	            emailext body: "
+	            emailext body: '"
 	                详情：
 	                SUCCESSFUL: Job \"${env.JOB_NAME} [${env.BUILD_NUMBER}]\"
 	                状态：${env.JOB_NAME} jenkins 更新运行失败
 	                URL ：${env.BUILD_URL}
 	                项目名称 ：${env.JOB_NAME} 
 	                项目更新进度：${env.BUILD_NUMBER}
-	                ",
+	                "',
 	                recipientProviders: [developers()], 
 	                subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}]",
 	                to: '18720931153@163.com'
