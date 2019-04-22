@@ -28,7 +28,7 @@ pipeline {
 		}
 		stage('上传 APK') {
 			steps {
-				sshPublisher(publishers: [sshPublisherDesc(configName: '192.168.5.4-SSH', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/jenkins_build/EhiDriverPadAPK', remoteDirectorySDF: false, removePrefix: '/EhaiPadClient/build/outputs/apk/', sourceFiles: '/EhaiPadClient/build/outputs/apk/${params.Environment}/*.apk')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+				sshPublisher(publishers: [sshPublisherDesc(configName: '192.168.5.4-SSH', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/jenkins_build/EhiDriverPadAPK', remoteDirectorySDF: false, removePrefix: '/EhaiPadClient/build/outputs/apk/', sourceFiles: "/EhaiPadClient/build/outputs/apk/${params.Environment}/*.apk")], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
 			}
 		}
 		stage('生成 APK 二维码') {
@@ -38,7 +38,7 @@ pipeline {
 		}
 		stage('上传二维码') {
 			steps {
-				sshPublisher(publishers: [sshPublisherDesc(configName: '192.168.5.4-SSH', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: "/jenkins_build/EhiDriverPadAPK/${params.Environment}/", remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'driverpad_${BUILD_TIMESTAMP}.jpg')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+				sshPublisher(publishers: [sshPublisherDesc(configName: '192.168.5.4-SSH', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: "/jenkins_build/EhiDriverPadAPK/${params.Environment}/", remoteDirectorySDF: false, removePrefix: '', sourceFiles: "driverpad_${BUILD_TIMESTAMP}.jpg")], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
 			}  
 		}
 		stage('设置构建描述属性') {
