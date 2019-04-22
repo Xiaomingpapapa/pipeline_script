@@ -33,7 +33,7 @@ pipeline {
 		}
 		stage('生成 APK 二维码') {
 			steps {
-				bat "java -jar D:\\software\\qr.jar url=http://192.168.5.4:10022/automationtest/script/EhiDriverPadAPK/${params.Environment}/driverpad_${BUILD_TIMESTAMP}.apk image=driverpad_${BUILD_TIMESTAMP}.jpg save=./"
+				bat "java -jar D:\\test\\qr.jar url=http://192.168.5.4:10022/automationtest/script/EhiDriverPadAPK/${params.Environment}/driverpad_${BUILD_TIMESTAMP}.apk image=driverpad_${BUILD_TIMESTAMP}.jpg save=./"
 			}
 		}
 		stage('上传二维码') {
