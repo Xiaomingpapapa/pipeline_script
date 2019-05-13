@@ -23,8 +23,8 @@ pipeline {
 			}
 		stage('生成 APK 二维码') {
 			steps {  	
-				bat "ren .\\EhaiPadClient\\build\\outputs\\apk\\${params.Environment}\\*.apk driverpad_${BUILD_TIMESTAMP}.apk"
-				sshPublisher(publishers: [sshPublisherDesc(configName: '192.168.5.30-SSH', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/jenkins_build/EhiDriverPadAPK', remoteDirectorySDF: false, removePrefix: '/EhaiPadClient/build/outputs/apk/', sourceFiles: "/EhaiPadClient/build/outputs/apk/${params.Environment}/*.apk")], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+				bat "ren .\\app\\build\\outputs\\apk\\${params.Environment}\\*.apk driverpad_${BUILD_TIMESTAMP}.apk"
+				sshPublisher(publishers: [sshPublisherDesc(configName: '192.168.5.30-SSH', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/jenkins_build/EhiDriverPadAPK', remoteDirectorySDF: false, removePrefix: '/app/build/outputs/apk/', sourceFiles: "/app/build/outputs/apk/${params.Environment}/*.apk")], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
 				bat "java -jar D:\\test\\qr.jar url=http://192.168.5.30:80/automationtest/script/EhiDriverPadAPK/${params.Environment}/driverpad_${BUILD_TIMESTAMP}.apk image=driverpad_${BUILD_TIMESTAMP}.jpg save=./"
 				sshPublisher(publishers: [sshPublisherDesc(configName: '192.168.5.30-SSH', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: "/jenkins_build/EhiDriverPadAPK/${params.Environment}/", remoteDirectorySDF: false, removePrefix: '', sourceFiles: "driverpad_${BUILD_TIMESTAMP}.jpg")], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
 				script {
@@ -34,12 +34,12 @@ pipeline {
 		}
 		stage('上传单元测试报告') {
 			steps {
-				publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'EhaiPadClient/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: '司机APP单元测试报告', reportTitles: ''])
+				publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'app/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: '司机APP单元测试报告', reportTitles: ''])
 			}
 		}
 		stage('上传单元测试覆盖率报告') {
 			steps {
-				publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'EhaiPadClient/build/reports/coverage', reportFiles: 'index.html', reportName: '司机APP单元测试覆盖率报告', reportTitles: ''])
+				publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'app/build/reports/coverage', reportFiles: 'index.html', reportName: '司机APP单元测试覆盖率报告', reportTitles: ''])
 			}
 		}
 		stage('上传 Jacoco 覆盖率报告') {
